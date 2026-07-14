@@ -1,0 +1,6 @@
+# Documentos de apoio — mantidos apenas localmente
+*.md
+!DOCUMENTACAO_ENTREGA.md
+
+# Setup scripts
+setup_ambiente.ps1
