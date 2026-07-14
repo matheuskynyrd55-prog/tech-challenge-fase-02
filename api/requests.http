@@ -1,0 +1,33 @@
+@baseUrl = http://localhost:3000/api/v1
+@postId = TESTE
+
+### List posts
+GET {{baseUrl}}/posts
+
+### Create post
+POST {{baseUrl}}/posts
+Content-Type: application/json
+
+{
+  "title": "Post de exemplo",
+  "content": "Conteudo de exemplo com tamanho suficiente para validacao.",
+  "author": "Professor Exemplo"
+}
+
+### Get post by id
+GET {{baseUrl}}/posts/{{postId}}
+
+### Update post
+PUT {{baseUrl}}/posts/{{postId}}
+Content-Type: application/json
+
+{
+  "title": "Post atualizado",
+  "content": "Conteudo atualizado para validar o endpoint PUT."
+}
+
+### Search posts
+GET {{baseUrl}}/posts/search?q=atualizado
+
+### Delete post
+DELETE {{baseUrl}}/posts/{{postId}}
