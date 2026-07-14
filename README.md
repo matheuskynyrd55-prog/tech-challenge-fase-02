@@ -1,6 +1,6 @@
 # Tech Challenge Fase 02 — Documentação de Entrega
 
-**Aluno:** Matheus Nogueira Silva
+**Aluno:** Matheus Nogueira Silva  
 **Projeto:** Refatoração do back-end da plataforma de blogging para Node.js
 
 ---
@@ -27,18 +27,17 @@ A API foi organizada em camadas (routes, controllers, services, repositories) pa
 
 ## Endpoints
 
-Base URL: `/api/v1`
-
+Base URL: \/api/v1
 | Método | Rota | Descrição |
 |--------|------|-----------|
-| GET | `/posts` | Lista todos os posts |
-| GET | `/posts/:id` | Retorna um post específico |
-| POST | `/posts` | Cria um novo post |
-| PUT | `/posts/:id` | Edita um post existente |
-| DELETE | `/posts/:id` | Remove um post |
-| GET | `/posts/search?q=` | Busca posts por palavra-chave |
+| GET | \/posts\ | Lista todos os posts |
+| GET | \/posts/:id\ | Retorna um post específico |
+| POST | \/posts\ | Cria um novo post |
+| PUT | \/posts/:id\ | Edita um post existente |
+| DELETE | \/posts/:id\ | Remove um post |
+| GET | \/posts/search?q=\ | Busca posts por palavra-chave |
 
-Campos obrigatórios para criar um post: `title`, `content` e `author`.
+Campos obrigatórios para criar um post: \	itle\, \content\ e \uthor\.
 
 ---
 
@@ -46,36 +45,33 @@ Campos obrigatórios para criar um post: `title`, `content` e `author`.
 
 Pré-requisitos: Node.js e Docker Desktop instalados.
 
-```bash
+\\ash
 # dentro da pasta api/
 cp .env.example .env
 docker compose up -d db
 npm install
 npx prisma migrate dev --name init
 npm run dev
-```
-
+\
 Ou com um único comando:
 
-```bash
+\\ash
 npm run bootstrap
-```
-
+\
 ---
 
 ## Testes
 
 Escrevi testes para as regras principais: criação, edição, exclusão, busca e tratamento de erros. Para rodar:
 
-```bash
+\\ash
 npm test
-```
-
+\
 ---
 
 ## Docker e CI/CD
 
-O projeto sobe com `docker compose up --build` e tem um workflow no GitHub Actions (`.github/workflows/ci-api.yml`) que roda os testes automaticamente em cada push. Quando o push vai para a branch main, ele também gera e publica a imagem Docker no GHCR.
+O projeto sobe com \docker compose up --build\ e tem um workflow no GitHub Actions (\.github/workflows/ci-api.yml\) que roda os testes automaticamente em cada push. Quando o push vai para a branch main, ele também gera e publica a imagem Docker no GHCR.
 
 ---
 
@@ -89,4 +85,4 @@ O aprendizado principal foi que um ambiente bem configurado desde o início econ
 
 ## Uma decisão diferente do Trabalho 1
 
-No projeto anterior (OutSystems), a exclusão de posts era um *soft delete*: o registro ficava no banco com um campo `Ativo = false`. Aqui optei por *hard delete* mesmo, porque simplifica o código. Se fosse um projeto em produção, provavelmente valeria reintroduzir esse campo para manter histórico.
+No projeto anterior (OutSystems), a exclusão de posts era um *soft delete*: o registro ficava no banco com um campo \Ativo = false\. Aqui optei por *hard delete* mesmo, porque simplifica o código. Se fosse um projeto em produção, provavelmente valeria reintroduzir esse campo para manter histórico.
