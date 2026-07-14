@@ -1,7 +1,8 @@
 # Tech Challenge Fase 02 — Documentação de Entrega
 
 **Aluno:** Matheus Nogueira Silva  
-**Projeto:** Refatoração do back-end da plataforma de blogging para Node.js
+**Projeto:** Refatoração do back-end da plataforma de blogging para Node.js  
+**Repositório:** https://github.com/matheuskynyrd55-prog/tech-challenge-fase-02
 
 ---
 
