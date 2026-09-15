@@ -1,5 +1,15 @@
 @baseUrl = http://localhost:3000/api/v1
 @postId = TESTE
+@token =
+
+### Login docente
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "docente",
+  "password": "123456"
+}
 
 ### List posts
 GET {{baseUrl}}/posts
@@ -7,6 +17,7 @@ GET {{baseUrl}}/posts
 ### Create post
 POST {{baseUrl}}/posts
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "title": "Post de exemplo",
@@ -20,6 +31,7 @@ GET {{baseUrl}}/posts/{{postId}}
 ### Update post
 PUT {{baseUrl}}/posts/{{postId}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "title": "Post atualizado",
@@ -31,3 +43,4 @@ GET {{baseUrl}}/posts/search?q=atualizado
 
 ### Delete post
 DELETE {{baseUrl}}/posts/{{postId}}
+Authorization: Bearer {{token}}

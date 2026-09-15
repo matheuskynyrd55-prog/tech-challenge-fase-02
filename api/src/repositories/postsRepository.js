@@ -7,8 +7,23 @@ class PostsRepository {
     return this.prisma.post.findMany({ orderBy: { createdAt: "desc" } });
   }
 
-  findById(id) {
-    return this.prisma.post.findUnique({ where: { id } });
+  async findById(id) {
+    try {
+      return await this.prisma.post.findUnique({
+        where: { id },
+        include: {
+          comments: {
+            orderBy: { createdAt: "asc" }
+          },
+          likes: {
+            select: { author: true }
+          }
+        }
+      });
+    } catch {
+      // Fallback para ambientes onde migrations/client de comments/likes ainda nao foram aplicadas.
+      return this.prisma.post.findUnique({ where: { id } });
+    }
   }
 
   create(payload) {
@@ -24,6 +39,50 @@ class PostsRepository {
 
   remove(id) {
     return this.prisma.post.delete({ where: { id } });
+  }
+
+  createComment(postId, payload) {
+    return this.prisma.comment.create({
+      data: {
+        postId,
+        ...payload
+      }
+    });
+  }
+
+  findLike(postId, author) {
+    return this.prisma.postLike.findUnique({
+      where: {
+        postId_author: {
+          postId,
+          author
+        }
+      }
+    });
+  }
+
+  createLike(postId, author) {
+    return this.prisma.postLike.create({
+      data: {
+        postId,
+        author
+      }
+    });
+  }
+
+  removeLike(postId, author) {
+    return this.prisma.postLike.delete({
+      where: {
+        postId_author: {
+          postId,
+          author
+        }
+      }
+    });
+  }
+
+  countLikes(postId) {
+    return this.prisma.postLike.count({ where: { postId } });
   }
 
   search(term) {

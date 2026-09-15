@@ -1,8 +1,7 @@
 # Tech Challenge Fase 02 — Documentação de Entrega
 
-**Aluno:** Matheus Nogueira Silva  
-**Projeto:** Refatoração do back-end da plataforma de blogging para Node.js  
-**Repositório:** https://github.com/matheuskynyrd55-prog/tech-challenge-fase-02
+**Aluno:** Matheus  
+**Projeto:** Refatoração do back-end da plataforma de blogging para Node.js
 
 ---
 
@@ -77,8 +76,6 @@ npm test
 ## Docker e CI/CD
 
 O projeto sobe com `docker compose up --build` e tem um workflow no GitHub Actions (`.github/workflows/ci-api.yml`) que roda os testes automaticamente em cada push. Quando o push vai para a branch main, ele também gera e publica a imagem Docker no GHCR.
-
-Pasta do projeto da API: `api/`.
 
 ---
 

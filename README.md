@@ -32,14 +32,29 @@ Base URL: `/api/v1`
 
 | Método | Rota | Descrição |
 |--------|------|-----------|
+| POST | `/auth/login` | Autentica usuário e retorna token JWT |
 | GET | `/posts` | Lista todos os posts |
 | GET | `/posts/:id` | Retorna um post específico |
 | POST | `/posts` | Cria um novo post |
 | PUT | `/posts/:id` | Edita um post existente |
 | DELETE | `/posts/:id` | Remove um post |
 | GET | `/posts/search?q=` | Busca posts por palavra-chave |
+| POST | `/posts/:id/comments` | Cria comentário (autenticado) |
+| POST | `/posts/:id/likes` | Curte/descurte post (autenticado) |
 
 Campos obrigatórios para criar um post: `title`, `content` e `author`.
+
+Nesta versão, o `author` de post e comentário é definido automaticamente com base no usuário autenticado.
+
+## Regras de acesso
+
+- Docente: cria, edita, exclui postagens, comenta e curte.
+- Aluno: comenta e curte postagens.
+
+Credenciais padrão de desenvolvimento:
+
+- docente / 123456
+- aluno / 123456
 
 ---
 
@@ -56,6 +71,8 @@ npx prisma migrate dev --name init
 npm run dev
 ```
 
+No PowerShell do Windows, se houver bloqueio de script, use `npm.cmd` e `npx.cmd`.
+
 Ou com um único comando:
 
 ```bash
@@ -66,7 +83,7 @@ npm run bootstrap
 
 ## Testes
 
-Escrevi testes para as regras principais: criação, edição, exclusão, busca e tratamento de erros. Para rodar:
+Escrevi testes para as regras principais: criação, edição, exclusão, busca, autenticação, comentários e curtidas. Para rodar:
 
 ```bash
 npm test

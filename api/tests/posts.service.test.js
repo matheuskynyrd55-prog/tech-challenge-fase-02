@@ -7,6 +7,11 @@ describe("PostsService", () => {
       findAll: jest.fn(),
       findById: jest.fn(),
       create: jest.fn(),
+      createComment: jest.fn(),
+      findLike: jest.fn(),
+      createLike: jest.fn(),
+      removeLike: jest.fn(),
+      countLikes: jest.fn(),
       update: jest.fn(),
       remove: jest.fn()
     };
@@ -43,7 +48,7 @@ describe("PostsService", () => {
     const result = await service.getPostById("abc");
 
     expect(repository.findById).toHaveBeenCalledWith("abc");
-    expect(result).toEqual(expected);
+    expect(result).toEqual({ ...expected, likesCount: 0 });
   });
 
   test("deve retornar erro quando post nao existir", async () => {
@@ -108,5 +113,51 @@ describe("PostsService", () => {
 
     expect(repository.search).toHaveBeenCalledWith("teste");
     expect(result).toEqual([{ id: "1" }]);
+  });
+
+  test("deve adicionar comentario em post existente", async () => {
+    const repository = buildRepositoryMock();
+    repository.findById.mockResolvedValue({ id: "1", title: "Post" });
+    repository.createComment.mockResolvedValue({
+      id: "c1",
+      postId: "1",
+      author: "aluno",
+      content: "Comentario valido"
+    });
+
+    const service = new PostsService(repository);
+    const payload = { author: "aluno", content: "Comentario valido" };
+    const result = await service.addComment("1", payload);
+
+    expect(repository.findById).toHaveBeenCalledWith("1");
+    expect(repository.createComment).toHaveBeenCalledWith("1", payload);
+    expect(result).toMatchObject({ id: "c1", postId: "1" });
+  });
+
+  test("deve registrar like quando ainda nao curtido", async () => {
+    const repository = buildRepositoryMock();
+    repository.findById.mockResolvedValue({ id: "1", likes: [] });
+    repository.findLike.mockResolvedValue(null);
+    repository.countLikes.mockResolvedValue(1);
+
+    const service = new PostsService(repository);
+    const result = await service.toggleLike("1", "aluno");
+
+    expect(repository.findLike).toHaveBeenCalledWith("1", "aluno");
+    expect(repository.createLike).toHaveBeenCalledWith("1", "aluno");
+    expect(result).toEqual({ liked: true, likesCount: 1 });
+  });
+
+  test("deve remover like quando ja curtido", async () => {
+    const repository = buildRepositoryMock();
+    repository.findById.mockResolvedValue({ id: "1", likes: [{ author: "aluno" }] });
+    repository.findLike.mockResolvedValue({ id: "l1", postId: "1", author: "aluno" });
+    repository.countLikes.mockResolvedValue(0);
+
+    const service = new PostsService(repository);
+    const result = await service.toggleLike("1", "aluno");
+
+    expect(repository.removeLike).toHaveBeenCalledWith("1", "aluno");
+    expect(result).toEqual({ liked: false, likesCount: 0 });
   });
 });
